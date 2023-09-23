@@ -1,7 +1,6 @@
 {
   "name": "password-creater",
   "version": "1.0.0",
-  "description": "",
   "main": "main.ts",
   "scripts": {
     "build": "vite build",
@@ -11,5 +10,17 @@
   "license": "ISC",
   "devDependencies": {
     "vite": "^4.4.9"
-  }
+  },
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ponponumi/PasswordCreater.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ponponumi/PasswordCreater/issues"
+  },
+  "homepage": "https://github.com/ponponumi/PasswordCreater#readme",
+  "description": ""
 }
