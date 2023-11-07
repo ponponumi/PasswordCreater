@@ -1,6 +1,6 @@
 {
   "name": "password-creater",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "main": "src/main.ts",
   "scripts": {
     "build": "vite build",
@@ -9,6 +9,7 @@
   "author": "ponponumi",
   "license": "ISC",
   "devDependencies": {
+    "sass": "^1.69.5",
     "vite": "^4.4.9"
   },
   "directories": {

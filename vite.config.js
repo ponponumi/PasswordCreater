@@ -8,6 +8,7 @@ export default defineConfig({
     rollupOptions: {
       input: [
         './test/js/test.js',
+        './test/scss/style.scss',
       ],
     },
   },

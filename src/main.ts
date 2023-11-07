@@ -1,12 +1,24 @@
+/*!
+ * PasswordCreater JavaScript Library
+ * (C) 2023 ponponumi
+ * Released under the MIT license
+ */
+
 class PasswordCreater{
   // パスワードの生成
   private notSymbolArray: string[];
   private length: number;
+  private activeSymbol: string;
+  private sameStrConsecutive: boolean;
+  private similarStrNot: boolean;
 
   constructor() {
     // 初期化
     this.length = 16;
     this.notSymbolArray = [];
+    this.activeSymbol = "";
+    this.sameStrConsecutive = false;
+    this.similarStrNot = false;
   }
 
   private lowerGet() {
@@ -35,10 +47,21 @@ class PasswordCreater{
     return number;
   }
 
+  private symbolGetSystem() {
+    // システム用の記号取得用メソッド
+    let symbol: string = '!#$%&()=-~^|\\`@{}[]+;*:<>.,?/_';
+
+    if (this.activeSymbol !== "") {
+      // 有効な記号が含まれていれば
+      symbol = this.activeSymbol;
+    }
+
+    return symbol;
+  }
+
   private symbolGet() {
     // 記号を取得する
-    let symbol: string;
-    symbol = '!#$%&()=-~^|\\`@{}[]+;*:<>.,?/_';
+    let symbol: string = this.symbolGetSystem();
 
     if (this.notSymbolArray) {
       this.notSymbolArray.forEach(notSymbol => {
@@ -61,6 +84,16 @@ class PasswordCreater{
 
   private stringShuffle(string: string) {
     // 配列に分解し、文字をシャッフルして返す
+    if (this.similarStrNot) {
+      // 似ている文字を使わない場合(非推奨)
+      string = string.replace("0", "");
+      string = string.replace("1", "");
+      string = string.replace("I", "");
+      string = string.replace("O", "");
+      string = string.replace("l", "");
+      string = string.replace("o", "");
+    }
+
     let array: string[] = string.split("");
 
     for (let i: number = array.length - 1; i > 0; i--) {
@@ -84,8 +117,8 @@ class PasswordCreater{
       let index: number = this.random(stringList.length);
       let add: string = stringList[index];
 
-      if (add.toLowerCase() != last.toLowerCase()) {
-        // 文字が連続しなければ
+      if (add.toLowerCase() != last.toLowerCase() || this.sameStrConsecutive) {
+        // 文字が連続していないか、連続使用が有効であれば
         result += add;
         last = add;
       }
@@ -182,6 +215,45 @@ class PasswordCreater{
   public notSymbolClear() {
     // 使わない記号をリセットする
     this.notSymbolArray = [];
+  }
+
+  public activeSymbolChange(activeSymbol: string) {
+    // 使う記号を変更する
+    if (activeSymbol.length > 0) {
+      // 記号が含まれていれば
+      this.activeSymbol = activeSymbol;
+    } else {
+      // 記号が含まれていなければ
+      this.activeSymbol = "";
+    }
+  }
+
+  public activeSymbolClear() {
+    // 使う記号をリセットする
+    this.activeSymbol = "";
+  }
+
+  public sameStringConsecutiveChange(set: boolean) {
+    // 同じ文字の連続設定を変更
+    this.sameStrConsecutive = set;
+  }
+
+  public similarStrNotChange(set: boolean) {
+    // 似ている文字を使わないかどうかの設定を変更(通常はfalseを推奨)
+    this.similarStrNot = set;
+  }
+
+  public settingGet() {
+    // 現在の設定を取得する
+    let result = {
+      "length": this.length,
+      "notSymbol": this.notSymbolArray.join(""),
+      "activeSymbol": this.activeSymbol,
+      "sameStringConsecutive": this.sameStrConsecutive,
+      "similarString": this.similarStrNot,
+    };
+
+    return result;
   }
 }
 

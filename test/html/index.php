@@ -6,7 +6,7 @@ function vite_load($path){
   $data = file_get_contents($manifest);
   $array = json_decode($data,true);
 
-  return "build/" . $array[$path]["file"];
+  return "/build/" . $array[$path]["file"];
 }
 
 ?>
@@ -17,14 +17,39 @@ function vite_load($path){
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>動作テスト</title>
   <script src="<?= vite_load("test/js/test.js") ?>"></script>
+  <link rel="stylesheet" href="<?= vite_load("test/scss/style.scss") ?>">
 </head>
 <body>
   <h1>パスワード生成の動作テスト</h1>
-  <form action="javascript:create()">
+  <form action="javascript:passwordCreate()">
     <!-- パスワード生成 -->
     <label>
       長さ
       <input type="number" id="len" min="1" value="16">
+    </label>
+    <label>
+      使う記号
+      <input type="text" id="active-symbol">
+    </label>
+    <label>
+      使わない記号
+      <input type="text" id="not-symbol">
+    </label>
+    <label>
+      <input type="radio" name="consecutive" value="1">
+      同じ文字を連続する
+    </label>
+    <label>
+      <input type="radio" name="consecutive" value="0" checked>
+      同じ文字を連続しない
+    </label>
+    <label>
+      <input type="radio" name="similar" value="1" checked>
+      似ている文字(01OIoi)を使用する
+    </label>
+    <label>
+      <input type="radio" name="similar" value="0">
+      似ている文字(01OIoi)を使用しない
     </label>
     <input type="submit" value="生成する">
   </form>
@@ -41,6 +66,5 @@ function vite_load($path){
     <h3>数字</h3>
     <textarea id="result-number" cols="30" rows="5" readonly></textarea>
   </div>
-  <script src="js/script.js"></script>
 </body>
 </html>
